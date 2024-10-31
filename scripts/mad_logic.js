@@ -1,6 +1,9 @@
 const mainMain = document.querySelector('.main-main')
-console.log(mainMain)
-const MY_API = 'https://api.deezer.com/search?q=pop'
+// const MY_API = 'https://api.deezer.com/search?q=pop'
+
+const MY_API = 'https://fakestoreapi.com/products';
+
+
 
 async function fetchMusic(){
     try{
@@ -11,7 +14,7 @@ async function fetchMusic(){
         }
 
         const data = await res.json()
-        displayMusic(data.data)
+        displayMusic(data)
 
     }
     catch(e){
@@ -32,11 +35,11 @@ function displayMusic(data){
         <div class="track-box">
 
                         <div class="track-image">
-                            <img src="${music.artist.picture_medium}" id="cover-art">
+                            <img src="${music.image}" id="cover-art">
 
                         </div>
 
-                        <p id="track-artist">${music.artist.name}</p>
+                        <p id="track-artist">${music.price}</p>
 
                         <p id="track-title">${music.title}</p>
 
