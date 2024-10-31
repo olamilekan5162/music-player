@@ -1,4 +1,5 @@
 const mainMain = document.querySelector('.main-main')
+const searchInput = document.querySelector('#search')
 // const MY_API = 'https://api.deezer.com/search?q=pop'
 const MY_API = 'https://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=a35ee8fa0422bab3ab5e3aec2c51120c&format=json';
 
