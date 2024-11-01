@@ -79,25 +79,27 @@ function displayMusic(data){
     });
 
 
-    const searchInput = document.querySelector('#search')
+    const searchInput = document.querySelector('#search');
+    const searchIcon = document.querySelector('#search-icon');
 
-    searchInput.addEventListener('click', () => {
+    searchIcon.addEventListener('click', () => {
         const searchTrack = data.find((music) => music.name.toLowerCase() === searchInput.value.toLowerCase())
+        
         if (searchTrack) {
 
             const searchContainer = `
              <div class="search-box">
 
                         <div class="search-image">
-                            <img src="images/loko headshot.jpg" alt="cover art" id="cover-art">
+                            <img src="${searchTrack.image[2]["#text"]}" alt="cover art" id="cover-art">
                 
                         </div>
 
                         <div class="search-details">
 
-                            <p id="search-title">YOU ARE WORTHY TO BE PRAISED</p>
+                            <p id="search-title">${searchTrack.name}</p>
 
-                            <p id="search-artist">Oracle</p>
+                            <p id="search-artist">${searchTrack.artist}</p>
  
                         </div>
                 
