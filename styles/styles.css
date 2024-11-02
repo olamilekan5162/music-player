@@ -100,7 +100,7 @@ main .navbar {
     width: 50%;
     height: 50px;
     border-radius: 30px;
-    border: 1px solid white;
+    border: 2px solid white;
     background-color: #18181b;
     display: flex;
     flex-direction: row;
@@ -257,17 +257,18 @@ main .main-main {
 
 .search-details #search-dets {
     color: #f4f4f5;
-    /* font-weight: 500; */
-    font-size: medium;
+    font-weight: 500;
+    font-size: small;
 
 }
 
-#search-dets .span {
+#search-dets .circle {
     display: inline-block;
     background-color: white;
     border-radius: 50%;
     height: 5px;
     width: 5px;
+    margin: 0 10px;
 }
 
 .search-details #search-title {
@@ -275,4 +276,38 @@ main .main-main {
     font-size: 30px;
     font-weight: 900;
     color: white;
+}
+
+.search-details .download-play {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    align-items: center;
+    gap: 10px;
+}
+
+.download-play img {
+    height: 40px;
+    width: 40px;
+    filter: invert();
+}
+
+.download-play img:hover {
+    scale: 1.05;
+    cursor: pointer;
+}
+
+.download-play a {
+    text-decoration: none;
+    color: white;
+    /* background-color: white; */
+    border-radius: 40px;
+    border: 2px solid white;
+    padding: 6px;
+    font-weight: bold;
+}
+
+.download-play a:hover {
+    background-color: white;
+    color: #09090b;
 }

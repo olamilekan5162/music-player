@@ -14,7 +14,6 @@ async function fetchMusic(){
         }
 
         const data = await res.json()
-        console.log(data.results)
         displayMusic(data.results)
 
     }
@@ -73,20 +72,36 @@ function displayMusic(data){
                             <p id="search-artist">${music.artist_name}</p>
 
                             <p id="search-dets">
-                                Produced by: ${music.artist_idstr} 
-                                <span class="sere"></span>
-                                Released date: ${music.releasedate} <br> <br> 
-                                Duration: ${music.duration}mins 
+                                Produced by: ${music.artist_idstr} <br> <br>
+                                Released date: ${music.releasedate}  
+                                <span class="circle"></span>
+                                Duration: ${music.duration} mins 
                             </p>
+
+                            <div class="download-play">
+                                <img src="images/play-circle.svg" alt="play button" id="play">
+                                <a id="download" href="${music.audiodownload}">Download</a>
+
+                            </div>
  
                         </div>
-                
-                        
+             
                     </div>
             `;
 
             mainMain.innerHTML = searchContainer
             header.style.display = 'none'
+
+            const play = document.querySelector('#play')
+            const player = document.querySelector('#player')
+
+            play.addEventListener('click', () => {
+                player.src = music.audio;
+                player.play();
+
+            });
+
+
         });
     });
 
@@ -112,6 +127,21 @@ function displayMusic(data){
                             <p id="search-title">${searchTrack.name}</p>
 
                             <p id="search-artist">${searchTrack.artist_name}</p>
+
+                            <p id="search-dets">
+                                Produced by: ${searchTrack.artist_idstr} <br> <br>
+                                Released date: ${searchTrack.releasedate}  
+                                <span class="circle"></span>
+                                Duration: ${searchTrack.duration} mins 
+                            </p>
+
+                            <div class="download-play">
+                                <img src="images/play-circle.svg" alt="play button" id="play">
+                                <a id="download" href="${searchTrack.audiodownload}">Download</a>
+
+                            </div>
+
+                            
  
                         </div>
                 
@@ -129,3 +159,5 @@ function displayMusic(data){
 
 
 }
+
+
