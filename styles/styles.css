@@ -9,10 +9,10 @@
     height: 100vh;
     display: flex;
     flex-direction: row;
-    background-color: #f5f3ff;
-    color: black;
+    background-color: #09090b;
+    color: white;
     padding: 10px;
-    gap: 15px;
+    /* gap: 2px; */
 }
 
 aside {
@@ -22,8 +22,8 @@ aside {
     gap: 100px;
     padding-left: 30px;
     color: white;
-    background-color: #60a5fa;
-    border-radius: 15px;
+    background-color: #18181b;
+    border-radius: 10px;
 
 }
 
@@ -84,7 +84,7 @@ main {
     gap: 20px;
     padding-left: 10px;
     color: white;
-    background-color: #f5f3ff;
+    background-color: #09090b;
     font-family: sans-serif;
 }
 
@@ -100,13 +100,18 @@ main .navbar {
     width: 50%;
     height: 50px;
     border-radius: 30px;
-    background-color: #60a5fa;
+    border: 1px solid white;
+    background-color: #18181b;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 5px 20px;
     align-items: center;
 
+}
+
+.navbar .search:hover {
+    background-color: #27272a;
 }
 
 .search input {
@@ -149,7 +154,7 @@ main .main-wrapper {
 }
 
 .main-wrapper .header {
-    color: black;
+    color: white;
     font-weight: 700;
     font-size: large;
 
@@ -160,8 +165,11 @@ main .main-main {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 5px;
+    padding: 20px 0 0 20px;
     height: 100%;
+    border-radius: 10px;
     overflow-y: auto;
+    background-color: #18181b;
 }
 
 .main-main .track-box {
@@ -172,11 +180,11 @@ main .main-main {
     flex-direction: column;
     padding: 5px;
     gap: 5px;
-    color: black;
+    color: white;
 }
 
 .main-main .track-box:hover{
-    background-color: #60a5fa;
+    background-color: #27272a;
     cursor: pointer;
     scale: 1.03;
 }
@@ -212,8 +220,8 @@ main .main-main {
     padding: 50px;
     border-radius: 5px;
     gap: 10px;
-    background-color: #60a5fa;
-    color: black;
+    background-color: #18181b;
+    color: white;
 }
 
 .search-box .search-image {
@@ -243,13 +251,28 @@ main .main-main {
 }
 
 .search-details #search-artist {
-    font-weight: 500;
+    font-weight: 700;
 
+}
+
+.search-details #search-dets {
+    color: #f4f4f5;
+    /* font-weight: 500; */
+    font-size: medium;
+
+}
+
+#search-dets .span {
+    display: inline-block;
+    background-color: white;
+    border-radius: 50%;
+    height: 5px;
+    width: 5px;
 }
 
 .search-details #search-title {
     margin-top: 70px;
-    font-size: xx-large;
+    font-size: 30px;
     font-weight: 900;
     color: white;
 }

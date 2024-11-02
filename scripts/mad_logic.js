@@ -1,8 +1,9 @@
 const mainMain = document.querySelector('.main-main')
+const header = document.querySelector('.header')
 
 // const MY_API = 'https://api.deezer.com/search?q=pop'
-const MY_API = 'https://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=a35ee8fa0422bab3ab5e3aec2c51120c&format=json';
-
+// const MY_API = 'https://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=a35ee8fa0422bab3ab5e3aec2c51120c&format=json';
+const MY_API = 'https://api.jamendo.com/v3.0/tracks/?client_id=e7ce9afa&format=jsonpretty&limit=50&fuzzytags=groove+rock&speed=high+veryhigh';
 
 async function fetchMusic(){
     try{
@@ -13,7 +14,8 @@ async function fetchMusic(){
         }
 
         const data = await res.json()
-        displayMusic(data.results.albummatches.album)
+        console.log(data.results)
+        displayMusic(data.results)
 
     }
     catch(e){
@@ -34,13 +36,13 @@ function displayMusic(data){
         <div class="track-box">
 
                         <div class="track-image">
-                            <img src="${music.image[2]["#text"]}" id="cover-art">
+                            <img src="${music.album_image}" id="cover-art">
 
                         </div>
 
                         <p id="track-title">${music.name}</p>
 
-                        <p id="track-artist">${music.artist}</p>
+                        <p id="track-artist">${music.artist_name}</p>
 
                     </div>
         `;
@@ -50,23 +52,32 @@ function displayMusic(data){
 
     const trackBox = document.querySelectorAll('.track-box')
 
-    trackBox.forEach((track) => {
+    trackBox.forEach((track, index) => {
 
         track.addEventListener('click', () => {
+
+            music = data[index]
 
             const searchContainer = `
              <div class="search-box">
 
                         <div class="search-image">
-                            <img src="images/loko headshot.jpg" alt="cover art" id="cover-art">
+                            <img src="${music.album_image}" alt="cover art" id="cover-art">
                 
                         </div>
 
                         <div class="search-details">
 
-                            <p id="search-title">YOU ARE WORTHY TO BE PRAISED</p>
+                            <p id="search-title">${music.name}</p>
 
-                            <p id="search-artist">Oracle</p>
+                            <p id="search-artist">${music.artist_name}</p>
+
+                            <p id="search-dets">
+                                Produced by: ${music.artist_idstr} 
+                                <span class="sere"></span>
+                                Released date: ${music.releasedate} <br> <br> 
+                                Duration: ${music.duration}mins 
+                            </p>
  
                         </div>
                 
@@ -75,6 +86,7 @@ function displayMusic(data){
             `;
 
             mainMain.innerHTML = searchContainer
+            header.style.display = 'none'
         });
     });
 
@@ -91,7 +103,7 @@ function displayMusic(data){
              <div class="search-box">
 
                         <div class="search-image">
-                            <img src="${searchTrack.image[2]["#text"]}" alt="cover art" id="cover-art">
+                            <img src="${searchTrack.album_image}" alt="cover art" id="cover-art">
                 
                         </div>
 
@@ -99,7 +111,7 @@ function displayMusic(data){
 
                             <p id="search-title">${searchTrack.name}</p>
 
-                            <p id="search-artist">${searchTrack.artist}</p>
+                            <p id="search-artist">${searchTrack.artist_name}</p>
  
                         </div>
                 
@@ -108,6 +120,7 @@ function displayMusic(data){
             `;
 
             mainMain.innerHTML = searchContainer
+            header.style.display = 'none'
         }else {
             alert("No Music with such name found")
         }
