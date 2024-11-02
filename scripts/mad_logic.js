@@ -96,11 +96,16 @@ function displayMusic(data){
             const player = document.querySelector('#player')
 
             play.addEventListener('click', () => {
-                player.src = music.audio;
-                player.play();
-
+                if (player.paused){
+                    player.src = music.audio; 
+                    player.play();
+                    play.src = 'images/stop-circle.svg'
+                }else{
+                    player.pause();
+                    play.src = 'images/play-circle.svg'
+                }
+                
             });
-
 
         });
     });
@@ -157,7 +162,4 @@ function displayMusic(data){
     
     })
 
-
 }
-
-
