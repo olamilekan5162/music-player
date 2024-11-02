@@ -156,6 +156,22 @@ function displayMusic(data){
 
             mainMain.innerHTML = searchContainer
             header.style.display = 'none'
+
+            const play = document.querySelector('#play')
+            const player = document.querySelector('#player')
+
+            play.addEventListener('click', () => {
+                if (player.paused){
+                    player.src = searchTrack.audio; 
+                    player.play();
+                    play.src = 'images/stop-circle.svg'
+                }else{
+                    player.pause();
+                    play.src = 'images/play-circle.svg'
+                }
+                
+            });
+
         }else {
             alert("No Music with such name found")
         }
