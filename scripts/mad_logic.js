@@ -5,7 +5,7 @@ const header = document.querySelector('.header')
 // const MY_API = 'https://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=a35ee8fa0422bab3ab5e3aec2c51120c&format=json';
 const MY_API = 'https://api.jamendo.com/v3.0/tracks/?client_id=e7ce9afa&format=jsonpretty&limit=50&fuzzytags=groove+rock&speed=high+veryhigh';
 
-async function fetchMusic(){
+const fetchMusic = async () => {
     try{
 
         const res = await fetch(MY_API)
@@ -25,29 +25,40 @@ async function fetchMusic(){
 
 fetchMusic();
 
-function displayMusic(data){
+const  displayMusic = (data) => {
+
+    mainMain.innerHTML = ''
 
     data.forEach((music) => {
-        // learnt this and i felt it is cool than adding child element one by one
 
-        const tracksContainer = `
-        
-        <div class="track-box">
+       const trackBox = document.createElement('div');
+       trackBox.className = 'track-box';
 
-                        <div class="track-image">
-                            <img src="${music.album_image}" id="cover-art">
+       const trackImage = document.createElement('div');
+       trackImage.className = 'track-image';
 
-                        </div>
+       const image = document.createElement('img');
+       image.id = 'cover-art'
+       image.alt = 'cover art'
+       image.src = music.album_image
 
-                        <p id="track-title">${music.name}</p>
+       trackImage.appendChild(image)
 
-                        <p id="track-artist">${music.artist_name}</p>
+       const trackTitle = document.createElement('p');
+       trackTitle.id = 'track-title'
+       trackTitle.textContent = music.name
 
-                    </div>
-        `;
+       const artistName = document.createElement('p');
+       artistName.id = 'track-artist'
+       artistName.textContent = music.artist_name
 
-        mainMain.insertAdjacentHTML('beforeend', tracksContainer)
+       trackBox.appendChild(trackImage)
+       trackBox.appendChild(trackTitle)
+       trackBox.appendChild(artistName)
+
+        mainMain.appendChild(trackBox)
     });
+
 
     const trackBox = document.querySelectorAll('.track-box')
 
@@ -55,44 +66,70 @@ function displayMusic(data){
 
         track.addEventListener('click', () => {
 
-            music = data[index]
+            const music = data[index]
 
-            const searchContainer = `
-             <div class="search-box">
+            const searchBox = document.createElement('div');
+            searchBox.className = 'search-box';
 
-                        <div class="search-image">
-                            <img src="${music.album_image}" alt="cover art" id="cover-art">
-                
-                        </div>
+            const searchImage = document.createElement('div');
+            searchImage.className = 'search-image';
 
-                        <div class="search-details">
+            const image = document.createElement('img');
+            image.id = 'cover-art'
+            image.alt = 'cover-art'
+            image.src = music.album_image
 
-                            <p id="search-title">${music.name}</p>
+            searchImage.appendChild(image)
+            searchBox.appendChild(searchImage)
 
-                            <p id="search-artist">${music.artist_name}</p>
+            const searchDetails = document.createElement('div');
+            searchDetails.className = 'search-details';
 
-                            <p id="search-dets">
-                                Produced by: ${music.artist_idstr} <br> <br>
-                                Released date: ${music.releasedate}  
-                                <span class="circle"></span>
-                                Duration: ${music.duration} mins 
-                            </p>
+            const searchTitle = document.createElement('p');
+            searchTitle.id = 'search-title'
+            searchTitle.textContent = music.name
 
-                            <div class="download-play">
-                                <img src="images/play-circle.svg" alt="play button" id="play">
-                                <a id="download" href="${music.audiodownload}">Download</a>
+            const searchArtist = document.createElement('p');
+            searchArtist.id = 'search-artist'
+            searchArtist.textContent = music.artist_name
 
-                            </div>
+            const searchDets = document.createElement('p');
+            searchDets.id = 'search-dets'
+            searchDets.innerHTML = `
+                Produced by: ${music.artist_idstr} <br> <br>
+                Released date: ${music.releasedate}  
+                <span class="circle"></span>
+                Duration: ${music.duration} mins
+
+            `
+            searchDetails.appendChild(searchTitle);
+            searchDetails.appendChild(searchArtist);
+            searchDetails.appendChild(searchDets);
+            
+
+            const downloadPlay = document.createElement('div');
+            downloadPlay.className = 'download-play';
+
+            const play = document.createElement('img');
+            play.id = 'play'
+            play.alt = 'play button'
+            play.src = 'images/play-circle.svg'
+
+            const download = document.createElement('a');
+            download.id = 'download'
+            download.href = music.audiodownload
+            download.textContent = 'download'
+
+            downloadPlay.appendChild(play)
+            downloadPlay.appendChild(download)
+
+            searchDetails.appendChild(downloadPlay)
+            searchBox.appendChild(searchDetails)
  
-                        </div>
-             
-                    </div>
-            `;
-
-            mainMain.innerHTML = searchContainer
+            mainMain.innerHTML = ''
+            mainMain.appendChild(searchBox)
             header.style.display = 'none'
 
-            const play = document.querySelector('#play')
             const player = document.querySelector('#player')
 
             play.addEventListener('click', () => {
@@ -112,64 +149,87 @@ function displayMusic(data){
 
 
     const searchInput = document.querySelector('#search');
-    const searchIcon = document.querySelector('#search-icon');
+    const form = document.querySelector('form')
 
-    searchIcon.addEventListener('click', () => {
-        const searchTrack = data.find((music) => music.name.toLowerCase() === searchInput.value.toLowerCase())
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const music = data.find((music) => music.name.toLowerCase() === searchInput.value.toLowerCase())
         
-        if (searchTrack) {
+        if (music) {
 
-            const searchContainer = `
-             <div class="search-box">
+            const searchBox = document.createElement('div');
+            searchBox.className = 'search-box';
 
-                        <div class="search-image">
-                            <img src="${searchTrack.album_image}" alt="cover art" id="cover-art">
-                
-                        </div>
+            const searchImage = document.createElement('div');
+            searchImage.className = 'search-image';
 
-                        <div class="search-details">
+            const image = document.createElement('img');
+            image.id = 'cover-art'
+            image.alt = 'cover-art'
+            image.src = music.album_image
 
-                            <p id="search-title">${searchTrack.name}</p>
+            searchImage.appendChild(image)
+            searchBox.appendChild(searchImage)
 
-                            <p id="search-artist">${searchTrack.artist_name}</p>
+            const searchDetails = document.createElement('div');
+            searchDetails.className = 'search-details';
 
-                            <p id="search-dets">
-                                Produced by: ${searchTrack.artist_idstr} <br> <br>
-                                Released date: ${searchTrack.releasedate}  
-                                <span class="circle"></span>
-                                Duration: ${searchTrack.duration} mins 
-                            </p>
+            const searchTitle = document.createElement('p');
+            searchTitle.id = 'search-title'
+            searchTitle.textContent = music.name
 
-                            <div class="download-play">
-                                <img src="images/play-circle.svg" alt="play button" id="play">
-                                <a id="download" href="${searchTrack.audiodownload}">Download</a>
+            const searchArtist = document.createElement('p');
+            searchArtist.id = 'search-artist'
+            searchArtist.textContent = music.artist_name
 
-                            </div>
+            const searchDets = document.createElement('p');
+            searchDets.id = 'search-dets'
+            searchDets.innerHTML = `
+                Produced by: ${music.artist_idstr} <br> <br>
+                Released date: ${music.releasedate}  
+                <span class="circle"></span>
+                Duration: ${music.duration} mins
 
-                            
+            `
+            searchDetails.appendChild(searchTitle);
+            searchDetails.appendChild(searchArtist);
+            searchDetails.appendChild(searchDets);
+            
+
+            const downloadPlay = document.createElement('div');
+            downloadPlay.className = 'download-play';
+
+            const play = document.createElement('img');
+            play.id = 'play'
+            play.alt = 'play button'
+            play.src = 'images/play-circle.svg'
+
+            const download = document.createElement('a');
+            download.id = 'download'
+            download.href = music.audiodownload
+            download.textContent = 'download'
+
+            downloadPlay.appendChild(play)
+            downloadPlay.appendChild(download)
+
+            searchDetails.appendChild(downloadPlay)
+            searchBox.appendChild(searchDetails)
  
-                        </div>
-                
-                        
-                    </div>
-            `;
-
-            mainMain.innerHTML = searchContainer
+            mainMain.innerHTML = ''
+            mainMain.appendChild(searchBox)
             header.style.display = 'none'
 
-            const play = document.querySelector('#play')
             const player = document.querySelector('#player')
 
             play.addEventListener('click', () => {
                 if (player.paused){
-                    player.src = searchTrack.audio; 
+                    player.src = music.audio; 
                     player.play();
                     play.src = 'images/stop-circle.svg'
                 }else{
                     player.pause();
                     play.src = 'images/play-circle.svg'
-                }
-                
+                }  
             });
 
         }else {
