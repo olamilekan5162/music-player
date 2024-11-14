@@ -1,9 +1,9 @@
 const mainMain = document.querySelector('.main-main')
 const header = document.querySelector('.header')
 
-// const MY_API = 'https://api.deezer.com/search?q=pop'
-// const MY_API = 'https://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=a35ee8fa0422bab3ab5e3aec2c51120c&format=json';
 const MY_API = 'https://api.jamendo.com/v3.0/tracks/?client_id=e7ce9afa&format=jsonpretty&limit=50&fuzzytags=groove+rock&speed=high+veryhigh';
+
+
 
 const fetchMusic = async () => {
     try{
@@ -14,7 +14,10 @@ const fetchMusic = async () => {
         }
 
         const data = await res.json()
+
         displayMusic(data.results)
+        searchMusic(data.results)
+        clickMusic(data.results)
 
     }
     catch(e){
@@ -23,7 +26,10 @@ const fetchMusic = async () => {
     }
 }
 
+
 fetchMusic();
+
+
 
 const  displayMusic = (data) => {
 
@@ -31,7 +37,73 @@ const  displayMusic = (data) => {
 
     data.forEach((music) => {
 
-       const trackBox = document.createElement('div');
+       dashBoardMusic(music)
+    }); 
+}
+
+
+
+const clickMusic = (data) => {
+
+    const trackBox = document.querySelectorAll('.track-box')
+    trackBox.forEach((track, index) => {
+
+        track.addEventListener('click', () => {
+
+            const music = data[index]
+
+            clickedMusic(music)
+            playMusic(music)
+
+        });
+    });
+
+}
+
+
+const searchMusic = (data) => {
+
+    const searchInput = document.querySelector('#search');
+    const form = document.querySelector('form')
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const musico = data.find((music) => music.name.toLowerCase() === searchInput.value.toLowerCase())
+        
+        if (musico) {
+
+            clickedMusic(musico)
+            playMusic(musico)
+
+        }else {
+            alert("No Music with such name found")
+        }
+    
+    })
+
+}
+
+
+
+const playMusic = (music) => {
+    const player = document.querySelector('#player')
+    play.addEventListener('click', () => {
+        if (player.paused){
+            player.src = music.audio; 
+            player.play();
+            play.src = 'images/stop-circle.svg'
+        }else{
+            player.pause();
+            play.src = 'images/play-circle.svg'
+        }  
+    });
+
+}
+
+
+
+const dashBoardMusic = (music) => {
+    const trackBox = document.createElement('div');
        trackBox.className = 'track-box';
 
        const trackImage = document.createElement('div');
@@ -57,185 +129,74 @@ const  displayMusic = (data) => {
        trackBox.appendChild(artistName)
 
         mainMain.appendChild(trackBox)
-    });
+}
 
 
-    const trackBox = document.querySelectorAll('.track-box')
-
-    trackBox.forEach((track, index) => {
-
-        track.addEventListener('click', () => {
-
-            const music = data[index]
-
-            const searchBox = document.createElement('div');
-            searchBox.className = 'search-box';
-
-            const searchImage = document.createElement('div');
-            searchImage.className = 'search-image';
-
-            const image = document.createElement('img');
-            image.id = 'cover-art'
-            image.alt = 'cover-art'
-            image.src = music.album_image
-
-            searchImage.appendChild(image)
-            searchBox.appendChild(searchImage)
-
-            const searchDetails = document.createElement('div');
-            searchDetails.className = 'search-details';
-
-            const searchTitle = document.createElement('p');
-            searchTitle.id = 'search-title'
-            searchTitle.textContent = music.name
-
-            const searchArtist = document.createElement('p');
-            searchArtist.id = 'search-artist'
-            searchArtist.textContent = music.artist_name
-
-            const searchDets = document.createElement('p');
-            searchDets.id = 'search-dets'
-            searchDets.innerHTML = `
-                Produced by: ${music.artist_idstr} <br> <br>
-                Released date: ${music.releasedate}  
-                <span class="circle"></span>
-                Duration: ${music.duration} mins
-
-            `
-            searchDetails.appendChild(searchTitle);
-            searchDetails.appendChild(searchArtist);
-            searchDetails.appendChild(searchDets);
-            
-
-            const downloadPlay = document.createElement('div');
-            downloadPlay.className = 'download-play';
-
-            const play = document.createElement('img');
-            play.id = 'play'
-            play.alt = 'play button'
-            play.src = 'images/play-circle.svg'
-
-            const download = document.createElement('a');
-            download.id = 'download'
-            download.href = music.audiodownload
-            download.textContent = 'download'
-
-            downloadPlay.appendChild(play)
-            downloadPlay.appendChild(download)
-
-            searchDetails.appendChild(downloadPlay)
-            searchBox.appendChild(searchDetails)
- 
-            mainMain.innerHTML = ''
-            mainMain.appendChild(searchBox)
-            header.style.display = 'none'
-
-            const player = document.querySelector('#player')
-
-            play.addEventListener('click', () => {
-                if (player.paused){
-                    player.src = music.audio; 
-                    player.play();
-                    play.src = 'images/stop-circle.svg'
-                }else{
-                    player.pause();
-                    play.src = 'images/play-circle.svg'
-                }
-                
-            });
-
-        });
-    });
 
 
-    const searchInput = document.querySelector('#search');
-    const form = document.querySelector('form')
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const music = data.find((music) => music.name.toLowerCase() === searchInput.value.toLowerCase())
-        
-        if (music) {
+const clickedMusic = (music) => {
 
-            const searchBox = document.createElement('div');
-            searchBox.className = 'search-box';
+    const searchBox = document.createElement('div');
+    searchBox.className = 'search-box';
 
-            const searchImage = document.createElement('div');
-            searchImage.className = 'search-image';
+    const searchImage = document.createElement('div');
+    searchImage.className = 'search-image';
 
-            const image = document.createElement('img');
-            image.id = 'cover-art'
-            image.alt = 'cover-art'
-            image.src = music.album_image
+    const image = document.createElement('img');
+    image.id = 'cover-art'
+    image.alt = 'cover-art'
+    image.src = music.album_image
 
-            searchImage.appendChild(image)
-            searchBox.appendChild(searchImage)
+    searchImage.appendChild(image)
+    searchBox.appendChild(searchImage)
 
-            const searchDetails = document.createElement('div');
-            searchDetails.className = 'search-details';
+    const searchDetails = document.createElement('div');
+    searchDetails.className = 'search-details';
 
-            const searchTitle = document.createElement('p');
-            searchTitle.id = 'search-title'
-            searchTitle.textContent = music.name
+    const searchTitle = document.createElement('p');
+    searchTitle.id = 'search-title'
+    searchTitle.textContent = music.name
 
-            const searchArtist = document.createElement('p');
-            searchArtist.id = 'search-artist'
-            searchArtist.textContent = music.artist_name
+    const searchArtist = document.createElement('p');
+    searchArtist.id = 'search-artist'
+    searchArtist.textContent = music.artist_name
 
-            const searchDets = document.createElement('p');
-            searchDets.id = 'search-dets'
-            searchDets.innerHTML = `
-                Produced by: ${music.artist_idstr} <br> <br>
-                Released date: ${music.releasedate}  
-                <span class="circle"></span>
-                Duration: ${music.duration} mins
+    const searchDets = document.createElement('p');
+    searchDets.id = 'search-dets'
+    searchDets.innerHTML = `
+        Produced by: ${music.artist_idstr} <br> <br>
+        Released date: ${music.releasedate}  
+        <span class="circle"></span>
+        Duration: ${music.duration} mins
 
-            `
-            searchDetails.appendChild(searchTitle);
-            searchDetails.appendChild(searchArtist);
-            searchDetails.appendChild(searchDets);
-            
-
-            const downloadPlay = document.createElement('div');
-            downloadPlay.className = 'download-play';
-
-            const play = document.createElement('img');
-            play.id = 'play'
-            play.alt = 'play button'
-            play.src = 'images/play-circle.svg'
-
-            const download = document.createElement('a');
-            download.id = 'download'
-            download.href = music.audiodownload
-            download.textContent = 'download'
-
-            downloadPlay.appendChild(play)
-            downloadPlay.appendChild(download)
-
-            searchDetails.appendChild(downloadPlay)
-            searchBox.appendChild(searchDetails)
- 
-            mainMain.innerHTML = ''
-            mainMain.appendChild(searchBox)
-            header.style.display = 'none'
-
-            const player = document.querySelector('#player')
-
-            play.addEventListener('click', () => {
-                if (player.paused){
-                    player.src = music.audio; 
-                    player.play();
-                    play.src = 'images/stop-circle.svg'
-                }else{
-                    player.pause();
-                    play.src = 'images/play-circle.svg'
-                }  
-            });
-
-        }else {
-            alert("No Music with such name found")
-        }
+    `
+    searchDetails.appendChild(searchTitle);
+    searchDetails.appendChild(searchArtist);
+    searchDetails.appendChild(searchDets);
     
-    })
 
+    const downloadPlay = document.createElement('div');
+    downloadPlay.className = 'download-play';
+
+    const play = document.createElement('img');
+    play.id = 'play'
+    play.alt = 'play button'
+    play.src = 'images/play-circle.svg'
+
+    const download = document.createElement('a');
+    download.id = 'download'
+    download.href = music.audiodownload
+    download.textContent = 'download'
+
+    downloadPlay.appendChild(play)
+    downloadPlay.appendChild(download)
+
+    searchDetails.appendChild(downloadPlay)
+    searchBox.appendChild(searchDetails)
+
+    mainMain.innerHTML = ''
+    mainMain.appendChild(searchBox)
+    header.style.display = 'none'
+    
 }
