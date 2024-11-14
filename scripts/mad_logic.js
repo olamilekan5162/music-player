@@ -3,8 +3,6 @@ const header = document.querySelector('.header')
 
 const MY_API = 'https://api.jamendo.com/v3.0/tracks/?client_id=e7ce9afa&format=jsonpretty&limit=50&fuzzytags=groove+rock&speed=high+veryhigh';
 
-
-
 const fetchMusic = async () => {
     try{
 
@@ -21,15 +19,11 @@ const fetchMusic = async () => {
 
     }
     catch(e){
-        console.error(e)
-        
+        console.error(e)        
     }
 }
 
-
 fetchMusic();
-
-
 
 const  displayMusic = (data) => {
 
@@ -40,8 +34,6 @@ const  displayMusic = (data) => {
        dashBoardMusic(music)
     }); 
 }
-
-
 
 const clickMusic = (data) => {
 
@@ -57,9 +49,7 @@ const clickMusic = (data) => {
 
         });
     });
-
 }
-
 
 const searchMusic = (data) => {
 
@@ -77,13 +67,9 @@ const searchMusic = (data) => {
 
         }else {
             alert("No Music with such name found")
-        }
-    
+        }    
     })
-
 }
-
-
 
 const playMusic = (music) => {
     const player = document.querySelector('#player')
@@ -97,10 +83,7 @@ const playMusic = (music) => {
             play.src = 'images/play-circle.svg'
         }  
     });
-
 }
-
-
 
 const dashBoardMusic = (music) => {
     const trackBox = document.createElement('div');
@@ -130,10 +113,6 @@ const dashBoardMusic = (music) => {
 
         mainMain.appendChild(trackBox)
 }
-
-
-
-
 
 const clickedMusic = (music) => {
 
